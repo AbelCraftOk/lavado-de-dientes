@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lavado de Dientes</title>
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #2b2b2b;
+            color: #ffffff;
+            margin: 0;
+        }
+
+        .container {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        /* Estilos de botones y cajas */
+        .button {
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 1em;
+            cursor: pointer;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+
+        /* Estilos de la cuadrícula de juego */
+        .game-grid {
+            display: grid;
+            gap: 2px;
+            margin-top: 20px;
+        }
+
+        .square {
+            width: 40px;
+            height: 40px;
+            background-color: #6495ed;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+
+        .square:hover {
+            background-color: #4682b4;
+        }
+
+        /* Estilo de barra de estado */
+        .status-bar {
+            margin-top: 10px;
+            padding: 10px;
+            text-align: center;
+            font-size: 1.2em;
+            background-color: #333333;
+            border-radius: 10px;
+            width: 80%;
+        }
+
+        /* Pantallas de inicio y fin de juego */
+        #start-screen,
+        #game-screen,
+        #game-over-screen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            border-radius: 12px;
+        }
+
+        .game-over {
+            color: #ff4c4c;
+            font-size: 2em;
+            margin-top: 20px;
+        }
+
+        .countdown {
+            margin-top: 10px;
+            font-size: 1.2em;
+            color: #ffffff;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="start-screen" class="container">
+        <h1>¿Qué deseas hacer?</h1>
+        <div class="button" onclick="navigateTo('planes')">
+            <h2>Planes:</h2>
+            <p>Presiona este botón para ver los planes de cepillado</p>
+        </div>
+    </div>
+
+    <div id="planes" class="container">
+        <h1>Los planes cargados son los siguientes:</h1>
+        <div class="button" onclick="navigateTo('plan1')">
+            <h2>Plan 1:</h2>
+            <p>15 segundos en: Las muelas lado izquierdo</p>
+            <p>15 segundos en: Las muelas lado izquierdo</p>
+            <p>15 segundos en: Las muelas lado derecho</p>
+            <p>15 segundos en: Las muelas lado derecho</p>
+            <p>15 segundos en: Las paletas</p>
+            <p>--------------------------------------------------</p>
+            <p>Presiona para usar este plan hoy...</p>
+        </div>
+        <div class="button" onclick="navigateTo('plan2')">
+            <h2>Plan 2:</h2>
+            <p>30 segundos en: Las muelas lado izquierdo</p>
+            <p>30 segundos en: Las muelas lado izquierdo</p>
+            <p>30 segundos en: Las muelas lado derecho</p>
+            <p>30 segundos en: Las muelas lado derecho</p>
+            <p>30 segundos en: Las paletas</p>
+            <p>--------------------------------------------------</p>
+            <p>Presiona para usar este plan hoy...</p>
+        </div>
+        <div class="button" onclick="navigateTo('plan3')">
+            <h2>Plan 3:</h2>
+            <p>45 segundos en: Las muelas lado izquierdo</p>
+            <p>45 segundos en: Las muelas lado izquierdo</p>
+            <p>45 segundos en: Las muelas lado derecho</p>
+            <p>45 segundos en: Las muelas lado derecho</p>
+            <p>45 segundos en: Las paletas</p>
+            <p>--------------------------------------------------</p>
+            <p>Presiona para usar este plan hoy...</p>
+        </div>
+        <div class="button" onclick="navigateTo('plan4')">
+            <h2>Plan 4:</h2>
+            <p>50 segundos en: Las muelas lado izquierdo</p>
+            <p>50 segundos en: Las muelas lado izquierdo</p>
+            <p>50 segundos en: Las muelas lado derecho</p>
+            <p>50 segundos en: Las muelas lado derecho</p>
+            <p>50 segundos en: Las paletas</p>
+            <p>--------------------------------------------------</p>
+            <p>Presiona para usar este plan hoy...</p>
+        </div>
+    </div>
+
+    <div id="plan1" class="container">
+        <h1>Plan 1: Cepillado</h1>
+        <div id="countdown1" class="countdown">75</div>
+        <audio id="beep" src="beep.mp3"></audio>
+        <div class="button" onclick="startCountdown(75, 15, 'countdown1')">Iniciar</div>
+        <div class="button" onclick="pauseCountdown()">Pausar</div>
+    </div>
+
+    <div id="plan2" class="container">
+        <h1>Plan 2: Cepillado</h1>
+        <div id="countdown2" class="countdown">150</div>
+        <div class="button" onclick="startCountdown(150, 30, 'countdown2')">Iniciar</div>
+        <div class="button" onclick="pauseCountdown()">Pausar</div>
+    </div>
+
+    <div id="plan3" class="container">
+        <h1>Plan 3: Cepillado</h1>
+        <div id="countdown3" class="countdown">225</div>
+        <div class="button" onclick="startCountdown(225, 45, 'countdown3')">Iniciar</div>
+        <div class="button" onclick="pauseCountdown()">Pausar</div>
+    </div>
+
+    <div id="plan4" class="container">
+        <h1>Plan 4: Cepillado</h1>
+        <div id="countdown4" class="countdown">250</div>
+        <div class="button" onclick="startCountdown(250, 50, 'countdown4')">Iniciar</div>
+        <div class="button" onclick="pauseCountdown()">Pausar</div>
+    </div>
+
+    <script>
+        let interval;
+        let remainingTime;
+        const audio = document.getElementById('beep');
+
+        function navigateTo(screen) {
+            document.querySelectorAll('.container').forEach(container => container.style.display = 'none');
+            document.getElementById(screen).style.display = 'flex';
+        }
+
+        function startCountdown(duration, beepInterval, countdownId) {
+            const countdown = document.getElementById(countdownId);
+            remainingTime = duration;
+            clearInterval(interval);
+
+            interval = setInterval(() => {
+                remainingTime--;
+                countdown.textContent = remainingTime;
+
+                if (remainingTime % beepInterval === 0) {
+                    audio.currentTime = 0;
+                    audio.play();
+                }
+
+                if (remainingTime <= 0) {
+                    clearInterval(interval);
+                }
+            }, 1000);
+        }
+
+        function pauseCountdown() {
+            clearInterval(interval);
+        }
+
+        navigateTo('start-screen');
+    </script>
+</body>
+
+</html>
